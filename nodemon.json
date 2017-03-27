@@ -1,0 +1,7 @@
+{
+  "exec": "RUST_LOG=rushlog=debug cargo run",
+  "ext": "rs toml lock",
+  "ignore": ["target/*"],
+  "verbose": true,
+  "watch": ["."]
+}
