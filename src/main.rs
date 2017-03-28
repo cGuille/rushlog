@@ -7,11 +7,11 @@ extern crate router;
 
 extern crate time;
 
-use iron::prelude::*;
-use iron::status;
+use iron::prelude::{Chain, Iron};
 
 use router::Router;
 
+mod controller;
 mod middleware;
 
 use middleware::responsetime::ResponseTime;
@@ -19,18 +19,9 @@ use middleware::responsetime::ResponseTime;
 fn main() {
     env_logger::init().unwrap();
 
-    fn hello_world(_: &mut Request) -> IronResult<Response> {
-        Ok(Response::with((status::Ok, "Hello World!\n")))
-    }
-
-    fn create_event(_: &mut Request) -> IronResult<Response> {
-        debug!("TODO: create event.");
-        Ok(Response::with((status::Ok, "I have to create an event here.\n")))
-    }
-
     let mut router = Router::new();
-    router.get("/", hello_world, "hello_world");
-    router.post("/events", create_event, "create_event");
+
+    router.post("/rush", controller::rush::create, "create_rush");
 
     let mut chain = Chain::new(router);
     chain.link_before(ResponseTime);
