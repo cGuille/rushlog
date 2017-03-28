@@ -41,8 +41,14 @@ fn main() {
         Ok(Response::with((status::Ok, "Hello World!\n")))
     }
 
+    fn create_event(_: &mut Request) -> IronResult<Response> {
+        debug!("TODO: create event.");
+        Ok(Response::with((status::Ok, "I have to create an event here.\n")))
+    }
+
     let mut router = Router::new();
     router.get("/", hello_world, "hello_world");
+    router.post("/events", create_event, "create_event");
 
     let mut chain = Chain::new(router);
     chain.link_before(ResponseTime);
