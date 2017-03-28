@@ -10,3 +10,6 @@ version = "*"
 version = "*"
 [dependencies.env_logger]
 version = "*"
+
+[dependencies.time]
+version = "*"
