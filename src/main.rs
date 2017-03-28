@@ -7,12 +7,15 @@ extern crate router;
 
 extern crate time;
 
+extern crate uuid;
+
 use iron::prelude::{Chain, Iron};
 
 use router::Router;
 
 mod controller;
 mod middleware;
+mod model;
 
 use middleware::responsetime::ResponseTime;
 

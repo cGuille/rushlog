@@ -15,3 +15,7 @@ version = "*"
 
 [dependencies.time]
 version = "*"
+
+[dependencies.uuid]
+version = "*"
+features = ["v4"]
