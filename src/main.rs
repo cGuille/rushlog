@@ -3,12 +3,15 @@ extern crate log;
 extern crate env_logger;
 
 extern crate iron;
+extern crate router;
 
 extern crate time;
 
 use iron::prelude::*;
 use iron::status;
 use iron::{BeforeMiddleware, AfterMiddleware, typemap};
+
+use router::Router;
 
 use time::precise_time_ns;
 
@@ -38,7 +41,10 @@ fn main() {
         Ok(Response::with((status::Ok, "Hello World!\n")))
     }
 
-    let mut chain = Chain::new(hello_world);
+    let mut router = Router::new();
+    router.get("/", hello_world, "hello_world");
+
+    let mut chain = Chain::new(router);
     chain.link_before(ResponseTime);
     chain.link_after(ResponseTime);
 

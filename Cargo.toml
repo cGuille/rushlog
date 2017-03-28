@@ -5,6 +5,8 @@ authors = ["Guillaume Charmetant <gcharmetant@tea-ebook.com>"]
 
 [dependencies.iron]
 version = "*"
+[dependencies.router]
+version = "*"
 
 [dependencies.log]
 version = "*"
