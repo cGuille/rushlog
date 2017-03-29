@@ -1,9 +1,9 @@
 use std::fmt;
 use uuid::Uuid;
 
-#[derive(Debug)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct Rush {
-    uuid: Uuid,
+    uuid: String,
 }
 
 impl fmt::Display for Rush {
@@ -14,6 +14,6 @@ impl fmt::Display for Rush {
 
 impl Rush {
     pub fn new() -> Rush {
-        Rush { uuid: Uuid::new_v4() }
+        Rush { uuid: Uuid::new_v4().to_string() }
     }
 }

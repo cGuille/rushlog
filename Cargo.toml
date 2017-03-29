@@ -7,6 +7,15 @@ authors = ["Guillaume Charmetant <gcharmetant@tea-ebook.com>"]
 version = "*"
 [dependencies.router]
 version = "*"
+[dependencies.iron-json-response]
+version = "*"
+
+[dependencies.serde]
+version = "*"
+[dependencies.serde_derive]
+version = "*"
+[dependencies.serde_json]
+version = "*"
 
 [dependencies.log]
 version = "*"
