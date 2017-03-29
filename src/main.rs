@@ -30,6 +30,7 @@ fn main() {
 
     let mut router = Router::new();
 
+    router.get("/rush", controller::rush::fetch, "fetch_rush");
     router.post("/rush", controller::rush::create, "create_rush");
 
     let mut chain = Chain::new(router);

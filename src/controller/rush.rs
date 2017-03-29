@@ -15,3 +15,11 @@ pub fn create(_: &mut Request) -> IronResult<Response> {
 
     Ok(Response::with((status::Ok, JsonResponse::json(rush))))
 }
+
+pub fn fetch(_: &mut Request) -> IronResult<Response> {
+    let rush = Rush::new();// TODO retrieve from storage
+
+    info!("retrieved {}.", rush);
+
+    Ok(Response::with((status::Ok, JsonResponse::json(rush))))
+}
