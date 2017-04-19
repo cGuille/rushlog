@@ -13,6 +13,10 @@ impl fmt::Display for Rush {
 }
 
 impl Rush {
+    pub fn with(uuid: String) -> Rush {
+        Rush { uuid: uuid }
+    }
+
     pub fn new() -> Rush {
         Rush { uuid: Uuid::new_v4().to_string() }
     }

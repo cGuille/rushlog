@@ -17,4 +17,17 @@ impl Rush {
             "uuid" => rush.get_uuid(),
         }).unwrap();
     }
+
+    pub fn find(&self, uuid: String) -> Option<Model> {
+        let mut stmt = self.mysql.prepare("SELECT * FROM rush WHERE uuid = :uuid").unwrap();
+
+        let mut result = stmt.execute(params!{
+            "uuid" => uuid,
+        }).unwrap();
+
+        match result.nth(0) {
+            Some(row) => Some(Model::with(row.unwrap().take("uuid").unwrap())),
+            None => None,
+        }
+    }
 }

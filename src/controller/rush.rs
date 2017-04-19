@@ -2,6 +2,7 @@ use iron::request::Request;
 use iron::response::Response;
 use iron::IronResult;
 use iron::status;
+use router::Router;
 
 use ijr::JsonResponse;
 
@@ -21,10 +22,18 @@ pub fn create(request: &mut Request) -> IronResult<Response> {
     Ok(Response::with((status::Ok, JsonResponse::json(rush))))
 }
 
-pub fn fetch(_: &mut Request) -> IronResult<Response> {
-    let rush = Rush::new();// TODO retrieve from storage
+pub fn fetch(request: &mut Request) -> IronResult<Response> {
+    let mysql_pool = request.extensions.get::<PoolProvider>().unwrap().clone();
+    let repo = repository::rush::Rush::new(mysql_pool);
 
-    info!("retrieved {}.", rush);
+    let uuid = request.extensions.get::<Router>().unwrap().find("uuid");
 
-    Ok(Response::with((status::Ok, JsonResponse::json(rush))))
+    if uuid.is_none() {
+        return Ok(Response::with((status::BadRequest)));
+    }
+
+    match repo.find(uuid.unwrap().to_string()) {
+        Some(rush) => Ok(Response::with((status::Ok, JsonResponse::json(rush)))),
+        None => Ok(Response::with((status::NotFound))),
+    }
 }
