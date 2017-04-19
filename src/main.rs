@@ -3,6 +3,8 @@ extern crate log;
 extern crate env_logger;
 
 extern crate iron;
+#[macro_use]
+extern crate mysql;
 extern crate router;
 
 extern crate iron_json_response as ijr;
@@ -15,19 +17,22 @@ extern crate time;
 extern crate uuid;
 
 use iron::prelude::{Chain, Iron};
-
+use mysql::conn::pool::Pool;
 use router::Router;
 
 mod controller;
 mod middleware;
 mod model;
+mod repository;
 
+use middleware::mysql::PoolProvider;
 use middleware::responsetime::ResponseTime;
 use ijr::JsonResponseMiddleware;
 
 fn main() {
     env_logger::init().unwrap();
 
+    let mysql_pool = Pool::new("mysql://rushlog:rushlog@tea-db/rushlog").unwrap();
     let mut router = Router::new();
 
     router.get("/rush", controller::rush::fetch, "fetch_rush");
@@ -35,7 +40,8 @@ fn main() {
 
     let mut chain = Chain::new(router);
     chain.link_before(ResponseTime);
-    chain.link_after(JsonResponseMiddleware{});
+    chain.link_before(PoolProvider { pool: mysql_pool.clone() });
+    chain.link_after(JsonResponseMiddleware {});
     chain.link_after(ResponseTime);
 
     let port = match std::env::var("PORT") {

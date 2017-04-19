@@ -5,12 +5,17 @@ use iron::status;
 
 use ijr::JsonResponse;
 
+use middleware::mysql::PoolProvider;
 use model::rush::Rush;
+use repository;
 
-pub fn create(_: &mut Request) -> IronResult<Response> {
+pub fn create(request: &mut Request) -> IronResult<Response> {
+    let mysql_pool = request.extensions.get::<PoolProvider>().unwrap().clone();
+    let repo = repository::rush::Rush::new(mysql_pool);
+
     let rush = Rush::new();
 
-    // TODO save into storage
+    repo.create(&rush);
     info!("created {}.", rush);
 
     Ok(Response::with((status::Ok, JsonResponse::json(rush))))

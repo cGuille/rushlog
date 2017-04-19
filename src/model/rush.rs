@@ -16,4 +16,8 @@ impl Rush {
     pub fn new() -> Rush {
         Rush { uuid: Uuid::new_v4().to_string() }
     }
+
+    pub fn get_uuid(&self) -> String {
+        self.uuid.clone()
+    }
 }

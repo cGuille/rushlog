@@ -3,6 +3,9 @@ name = "rushlog"
 version = "0.1.0"
 authors = ["Guillaume Charmetant <gcharmetant@tea-ebook.com>"]
 
+[dependencies.mysql]
+version = "*"
+
 [dependencies.iron]
 version = "*"
 [dependencies.router]
