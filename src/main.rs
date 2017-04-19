@@ -38,8 +38,13 @@ fn main() {
     chain.link_after(JsonResponseMiddleware{});
     chain.link_after(ResponseTime);
 
-    let binding = "localhost:3000";
+    let port = match std::env::var("PORT") {
+        Ok(port) => port.parse::<u16>().unwrap(),
+        Err(_) => 3000,
+    };
+    let binding = ("localhost", port);
+
     let _server = Iron::new(chain).http(binding).unwrap();
 
-    info!("Listening on '{}'.", binding);
+    info!("Listening on {:?}.", binding);
 }

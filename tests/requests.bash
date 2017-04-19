@@ -6,7 +6,8 @@ function separator() {
     echo -ne "\n\n----------\n\n\n\n";
 }
 
+PORT="${PORT:-3000}"
 
-http -v localhost:3000/rush
+http -v "localhost:${PORT}/rush"
 separator
-http -v POST localhost:3000/rush
+http -v POST "localhost:${PORT}/rush"
